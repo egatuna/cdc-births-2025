@@ -173,7 +173,9 @@ def show_kpis(fdf: pd.DataFrame, f: dict) -> None:
     by_month = fdf.groupby("Month", observed=True)["Births"].sum()
     n_months = len(f["months"])
 
-    c = st.columns(5)
+    # Two rows (3 + 2) so long values like "California" never truncate on laptop-width screens
+    row1, row2 = st.columns(3), st.columns(2)
+    c = [*row1, *row2]
     c[0].metric("Total births", f"{total:,}", border=True)
     c[1].metric("Geographies selected", f"{len(f['states']):,}", border=True)
     c[2].metric("Avg births per month", f"{total / n_months:,.0f}", border=True,
